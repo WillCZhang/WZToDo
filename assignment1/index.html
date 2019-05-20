@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <h1>
+            TODO
+        </h1>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <ul class="horizontal gray">
+            <li>
+                <a>Home</a>
+            </li>
+            <li>
+                <a class="active">Todo</a>
+            </li>
+        </ul>
+        <div class="container center">
+            <form>
+                <input type="text" name="item" class="text-line" placeholder="Any todo item?">
+                <input type="button" onclick="myFunction()" value="Add" class="button">
+            </form>
+        </div>
+        <div class="container list">
+                <ul id="todo">
+                    <li>
+                        <ul class="horizontal">
+                            <li class="text">Test Item</li>
+                            <li class="done">Done</li>
+                            <li class="cancel">Cancel</li>
+                        </ul>
+                        <ul class="horizontal">
+                                <li class="text">Test Item</li>
+                                <li class="done">Done</li>
+                                <li class="cancel">Cancel</li>
+                        </ul>
+                        <ul class="horizontal">
+                            <li class="text">Test Item</li>
+                            <li class="done">Done</li>
+                            <li class="cancel">Cancel</li>
+                        </ul>
+                        <ul class="horizontal">
+                            <li class="text cross-out">Test Item</li>
+                            <li class="done">Done</li>
+                            <li class="cancel">Cancel</li>
+                        </ul>
+                    </li>
+                </ul>
+        </div>
+        <div class="container center">
+            <button class="button-clear">Clear All</button>
+        </div>
+    </body>
+</html>
