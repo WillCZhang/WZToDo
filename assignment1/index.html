@@ -1,54 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <h1>
+        <h1 id="title">
             TODO
         </h1>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
-    <body>
-        <ul class="horizontal gray">
+    <body onload="myFunction()">
+        <ul id="nav-bar" class="horizontal gray">
             <li>
-                <a>Home</a>
+                <a class="active">Home</a>
             </li>
             <li>
-                <a class="active">Todo</a>
+                <a href="list.html">Todo</a>
             </li>
         </ul>
         <div class="container center">
-            <form>
-                <input type="text" name="item" class="text-line" placeholder="Any todo item?">
-                <input type="button" onclick="myFunction()" value="Add" class="button">
-            </form>
-        </div>
-        <div class="container list">
-                <ul id="todo">
-                    <li>
-                        <ul class="horizontal">
-                            <li class="text">Test Item</li>
-                            <li class="done">Done</li>
-                            <li class="cancel">Cancel</li>
-                        </ul>
-                        <ul class="horizontal">
-                                <li class="text">Test Item</li>
-                                <li class="done">Done</li>
-                                <li class="cancel">Cancel</li>
-                        </ul>
-                        <ul class="horizontal">
-                            <li class="text">Test Item</li>
-                            <li class="done">Done</li>
-                            <li class="cancel">Cancel</li>
-                        </ul>
-                        <ul class="horizontal">
-                            <li class="text cross-out">Test Item</li>
-                            <li class="done">Done</li>
-                            <li class="cancel">Cancel</li>
-                        </ul>
-                    </li>
-                </ul>
-        </div>
-        <div class="container center">
-            <button class="button-clear">Clear All</button>
+            <h3>
+                Todo
+            </h3>
         </div>
     </body>
+    <script src="script.js"></script>
 </html>

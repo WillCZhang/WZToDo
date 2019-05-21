@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <h1 id="title">
+            TODO
+        </h1>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body onload="loadCache()">
+        <ul id="nav-bar" class="horizontal gray">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a class="active">Todo</a>
+            </li>
+        </ul>
+        <div class="container center">
+            <form id="add">
+                <input type="text" id="newItem" class="text-line" placeholder="Any todo item?">
+                <input type="button" onclick="insertElement(document.getElementById('newItem').value)" value="Add" class="button">
+            </form>
+        </div>
+        <div class="container list">
+            <ul id="todo">
+            </ul>
+        </div>
+        <div class="container center">
+            <button id="clear" class="button-clear" onclick="clearAllItem()">Clear All</button>
+        </div>
+    </body>
+    <script src="script.js"></script>
+</html>
