@@ -22,12 +22,11 @@ function loadCache() {
 
 let counter = 0;
 function getNextItemId() {
-    // not sure if javascript needs to handle overflow,
-    // but this really isn't a good implementation...
+    // it's ok for the assignment, but this really isn't a good implementation...
     return "item" + counter++;
 }
 
-function insertItem(text, done=false) {
+function insertItem(text, isDone=false) {
     if (!text) {
         alert("Please enter content :)");
         return;
@@ -40,7 +39,7 @@ function insertItem(text, done=false) {
     item.innerText = text;
     let doneButton = document.createElement("LI");
     doneButton.setAttribute("onclick", "flipStatusWithId(\""+id+"\")");
-    flipStatus(item, doneButton, done);
+    flipStatus(item, doneButton, isDone);
     let cancelButton = document.createElement("LI");
     cancelButton.setAttribute("class", "cancel");
     cancelButton.setAttribute("onclick", "removeElement(\""+id+"\")");
@@ -60,8 +59,8 @@ function flipStatusWithId(id) {
 
 const DONE = "Done";
 const NOT_DONE = "Not Done"
-function flipStatus(item, doneButton, done) {
-    if (done) {
+function flipStatus(item, doneButton, isDone) {
+    if (isDone) {
         item.setAttribute("class", "text cross-out");
         doneButton.innerText = NOT_DONE;
     } else {

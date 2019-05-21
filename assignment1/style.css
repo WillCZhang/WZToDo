@@ -107,7 +107,7 @@ li.cross-out {
 }
 
 /* Other Definitions */
-h1, h2, h3 {
+h1, h2, h3, h5, p {
     font-family: "Segoe UI",Arial,sans-serif;
 }
 .cross-out {
@@ -118,4 +118,8 @@ div.container {
 }
 div.center {
     text-align: center;
+}
+div.box {
+    margin-left: 20%;
+    margin-right: 20%
 }
