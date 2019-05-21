@@ -13,10 +13,10 @@ const cache = `{
 function loadCache() {
     let cached = JSON.parse(cache);
     for (let todo of cached["todo"]) {
-        insertElement(todo);
+        insertItem(todo);
     }
     for (let done of cached["done"]) {
-        insertElement(done, true);
+        insertItem(done, true);
     }
 }
 
@@ -27,7 +27,7 @@ function getNextItemId() {
     return "item" + counter++;
 }
 
-function insertElement(text, done=false) {
+function insertItem(text, done=false) {
     if (!text) {
         alert("Please enter content :)");
         return;

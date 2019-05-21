@@ -6,19 +6,28 @@
         </h1>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
-    <body onload="myFunction()">
+    <body onload="loadCache()">
         <ul id="nav-bar" class="horizontal gray">
             <li>
                 <a class="active">Home</a>
             </li>
             <li>
-                <a href="list.html">Todo</a>
+                <a href="about.html">About</a>
             </li>
         </ul>
         <div class="container center">
-            <h3>
-                Todo
-            </h3>
+            <form id="add">
+                <input type="text" id="newItem" class="text-line" placeholder="Any todo item?">
+                <input type="button" onclick="insertItem(document.getElementById('newItem').value)" value="Add" class="button button-add">
+                <input type="button" onclick="document.getElementById('newItem').value=''" value="Clear" class="button button-clear">
+            </form>
+        </div>
+        <div class="container list">
+            <ul id="todo">
+            </ul>
+        </div>
+        <div class="container center">
+            <button class="button-clear" onclick="clearAllItem()">Clear All</button>
         </div>
     </body>
     <script src="script.js"></script>
