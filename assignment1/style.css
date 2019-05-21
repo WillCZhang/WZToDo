@@ -34,10 +34,10 @@ li {
 }
 li.text {
     color: rgb(16, 120, 238);
-    margin-left: 10%;
+    margin-left: 20%;
     margin-right: 2%;
     padding: 5px 5px;
-    width: 60%;
+    width: 50%;
     outline: none;
     outline-style: none;
     border-top: none;
@@ -47,10 +47,10 @@ li.text {
 }
 li.cross-out {
     color: rgb(126, 181, 245);
-    margin-left: 10%;
+    margin-left: 20%;
     margin-right: 2%;
     padding: 5px 5px;
-    width: 60%;
+    width: 50%;
     outline: none;
     outline-style: none;
     border-top: none;
@@ -59,14 +59,22 @@ li.cross-out {
     border-bottom: solid #eeeeee 2px;
 }
 .done {
-    color: rgb(49, 214, 104);
+    color: rgb(40, 214, 98);
     padding: 5px 3px;
     width: 10%;
+}
+.done:hover {
+    background-color: rgb(40, 214, 98);
+    color: white;
 }
 .cancel {
     color: rgb(240, 50, 50);
     padding: 5px 3px;
     width: 10%;
+}
+.cancel:hover {
+    background-color: rgb(240, 50, 50);
+    color: white;
 }
 
 /* Button Definitions */
