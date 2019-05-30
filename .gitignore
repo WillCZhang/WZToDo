@@ -1,3 +1,6 @@
+meteor-app/.meteor/local
+.DS_Store
+
 # Logs
 logs
 *.log
