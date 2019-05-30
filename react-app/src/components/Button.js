@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 class Button extends React.Component {
 	render() {
@@ -6,4 +7,4 @@ class Button extends React.Component {
 	}
 }
 
-export default Button;
+export default connect()(Button); 
