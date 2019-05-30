@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <h2 id="title">
+            CPSC 436i Home
+        </h2>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body onload="loadCache()">
+        <ul id="nav-bar" class="horizontal gray">
+            <li>
+                <a class="active">Home</a>
+            </li>
+            <li>
+                <a href="about.html">About</a>
+            </li>
+        </ul>
+        <div class="container center">
+            <form id="add">
+                <input type="text" id="newItem" class="text-line" placeholder="Any todo item?">
+                <input type="button" onclick="insertItem(document.getElementById('newItem').value)" value="Add" class="button button-add">
+                <input type="button" onclick="document.getElementById('newItem').value=''" value="Clear" class="button button-clear">
+            </form>
+        </div>
+        <div class="container">
+            <ul id="todo">
+            </ul>
+        </div>
+        <div class="container center">
+            <button class="button-clear" onclick="clearAllItem()">Clear All</button>
+        </div>
+    </body>
+    <script src="script.js"></script>
+</html>
