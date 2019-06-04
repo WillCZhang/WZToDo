@@ -113,6 +113,9 @@ li.cross-out {
     padding: 3px 10px;
     font-size: 20px;
 }
+.text-small-font {
+    font-size: 16px;
+}
 
 /* Other Definitions */
 h1, h2, h3, h5, p {
