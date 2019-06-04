@@ -56,8 +56,11 @@ class Todo extends React.Component {
     submit = () => {
         if (this.title.current.value === "") {
             alert("Please enter something :)")
+            return;
         }
         this.props.addItem(this.title.current.value, this.detail.current.value);
+        this.title.current.value = "";
+        this.detail.current.value = "";
     }
     generateAddTodoItemView() {
         return (

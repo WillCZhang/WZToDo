@@ -45,6 +45,20 @@ li.text {
     border-right: none;
     border-bottom: solid #eeeeee 2px;
 }
+li.text:hover {
+    background-color: rgb(16, 120, 238);
+    color: #fff9f9;
+    margin-left: 20%;
+    margin-right: 2%;
+    padding: 5px 5px;
+    width: 50%;
+    outline: none;
+    outline-style: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #eeeeee 2px;
+}
 li.cross-out {
     color: rgb(126, 181, 245);
     margin-left: 20%;
