@@ -1,0 +1,150 @@
+/* List Definitions */
+ul {
+    list-style-type: none;
+    margin-top: 1%;
+    padding: 0;
+    overflow: auto;
+}
+ul.horizontal {
+    overflow: auto;
+}
+ul.horizontal li {
+    float: left;
+}
+ul.gray {
+    border: 1px solid #e7e7e7;
+    background-color: #f3f3f3;
+}
+ul.gray li a {
+    display: block;
+    color: rgb(29, 134, 253);
+    padding: 14px 16px;
+}
+ul.gray li a:hover {
+    color: white;
+    background-color: rgb(37, 141, 238);
+}
+ul.gray li a.active {
+    color: white;
+    background-color: rgb(25, 116, 201);
+}
+li {
+    font-family: "Segoe UI",Arial,sans-serif;
+    font-size: 16px;
+}
+li.text {
+    color: rgb(16, 120, 238);
+    margin-left: 20%;
+    margin-right: 2%;
+    padding: 5px 5px;
+    width: 50%;
+    outline: none;
+    outline-style: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #eeeeee 2px;
+}
+li.text:hover {
+    background-color: rgb(16, 120, 238);
+    color: #fff9f9;
+    margin-left: 20%;
+    margin-right: 2%;
+    padding: 5px 5px;
+    width: 50%;
+    outline: none;
+    outline-style: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #eeeeee 2px;
+}
+li.cross-out {
+    color: rgb(126, 181, 245);
+    margin-left: 20%;
+    margin-right: 2%;
+    padding: 5px 5px;
+    width: 50%;
+    outline: none;
+    outline-style: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #eeeeee 2px;
+}
+.done {
+    color: rgb(40, 214, 98);
+    padding: 5px 3px;
+    width: 10%;
+}
+.done:hover {
+    background-color: rgb(40, 214, 98);
+    color: white;
+}
+.cancel {
+    color: rgb(240, 50, 50);
+    padding: 5px 3px;
+    width: 10%;
+}
+.cancel:hover {
+    background-color: rgb(240, 50, 50);
+    color: white;
+}
+
+/* Button Definitions */
+.button {
+    border: none;
+    color: white;
+    padding: 6px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+}
+.button-add {
+    background-color: rgb(19, 123, 241);
+}
+.button-clear {
+    background-color: rgb(248, 79, 79);
+}
+.button-clear {
+    background-color: rgb(255, 70, 70);
+    border: none;
+    color: white;
+    padding: 6px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+}
+
+/* Input */
+.text-line {
+    outline: none;
+    outline-style: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid #eeeeee 2px;
+    padding: 3px 10px;
+    font-size: 20px;
+}
+.text-small-font {
+    font-size: 16px;
+}
+
+/* Other Definitions */
+h1, h2, h3, h5, p {
+    font-family: "Segoe UI",Arial,sans-serif;
+}
+.cross-out {
+    text-decoration: line-through;
+}
+div.container {
+    overflow: auto;
+}
+div.center {
+    text-align: center;
+}
+div.box {
+    margin-left: 20%;
+    margin-right: 20%
+}
