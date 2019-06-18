@@ -1,6 +1,7 @@
-meteor-app/.meteor/local
 .DS_Store
-
+# .gitignore
+.env
+sessions
 # Logs
 logs
 *.log
