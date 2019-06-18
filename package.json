@@ -1,16 +1,25 @@
 {
-  "name": "todo",
-  "version": "0.0.0",
-  "private": true,
+  "name": "CPSC_436i",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "client": "cd client && npm start",
+    "server": "cd server && npm start",
+    "start": "concurrently -k \"npm run server\" \"npm run client\""
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WillCZhang/CPSC_436i.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WillCZhang/CPSC_436i/issues"
+  },
+  "homepage": "https://github.com/WillCZhang/CPSC_436i#readme",
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1",
-    "pug": "^2.0.3"
+    "concurrently": "^4.1.0"
   }
 }
