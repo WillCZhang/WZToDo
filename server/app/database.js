@@ -65,17 +65,18 @@ database.prototype.update = (collection, condition, toUpdate) => {
 
 // I believe mongodb has reserved unique ids for objects, I'll do similar things.
 // so the key "id" is special, if the data specified "id", we'll use this as the object unique id
-// (caller is responsible to ensure the id is unique). Otherwise I'll give it a unique id.
+// (duplicate id will throw error). Otherwise I'll give it a unique id.
 database.prototype.add = (collection, data) => {
     if (db[collection] === null || db[collection] === undefined) {
         db[collection] = [];
     }
-    console.log(data);
-    console.log(db)
     if (data.id === null || data.id === undefined) {
         data.id = uuidv4();
+    } else {
+        for (let store of db[collection])
+            if (matchCondition(store, {"id": data.id}))
+                throw 'Duplicate ID'
     }
-    console.log(data);
     db[collection].push(data);
     storeData();
 }
@@ -88,7 +89,6 @@ database.prototype.delete = (collection, condition) => {
             newCollection.push(data);
         }
     }
-    console.log(newCollection)
     db[collection] = newCollection;
     storeData();
 }

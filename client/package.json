@@ -2,11 +2,16 @@
   "name": "clinet",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001/",
   "dependencies": {
+    "base-64": "^0.1.0",
+    "dotenv": "^8.0.0",
+    "express-session": "^1.16.2",
+    "passport": "^0.4.0",
+    "passport-auth0": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "redux": "^4.0.1"
   },

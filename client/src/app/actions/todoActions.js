@@ -1,4 +1,4 @@
-import { ADD_ITEM, CHANGE_STATUS, CANCEL_ITEM, ADD_DETAIL, SHOW_DETAIL, CLOSE_DETAIL, CLEAR_ALL } from '../const';
+import { ADD_ITEM, CHANGE_STATUS, CANCEL_ITEM, ADD_DETAIL, SHOW_DETAIL, CLOSE_DETAIL, CLEAR_ALL, LOAD_LIST } from '../const';
 
 // todo list
 function addItem(text, detail) {
@@ -21,7 +21,11 @@ function clearAll() {
     return {type: CLEAR_ALL};
 }
 
-export { addItem, finishItem, cancelItem, addDetail, clearAll };
+function loadList(list) {
+    return {type: LOAD_LIST, list: list};
+}
+
+export { addItem, finishItem, cancelItem, addDetail, clearAll, loadList };
 
 // ui
 function showDetail(obj) {

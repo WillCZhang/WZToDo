@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux';
-import { ADD_ITEM, CHANGE_STATUS, CANCEL_ITEM, ADD_DETAIL, SHOW_DETAIL, CLOSE_DETAIL, CLEAR_ALL } from '../const';
+import { ADD_ITEM, CHANGE_STATUS, CANCEL_ITEM, ADD_DETAIL, SHOW_DETAIL, CLOSE_DETAIL, CLEAR_ALL, LOAD_LIST } from '../const';
+import { alertActions } from '../actions/alertAction';
+
+// CHANGED!!!
 
 const cache = {
     "todo": [
@@ -16,9 +19,6 @@ const cache = {
 let nextId = 1;
 
 function newItem(text, id, done=false, detail="") {
-    if (isNaN(id)) {
-        id = ++nextId;
-    }
     return {
         id: id,
         text: text,
@@ -27,22 +27,18 @@ function newItem(text, id, done=false, detail="") {
     }
 }
 
-function loadCache() {
-    let list = {};
-    for (let todo of cache["todo"]) {
-        let item = newItem(todo);
-        list[item.id] = item;
+function loadList(list) {
+    let result = {};
+    for (let todo of list["todo"]) {
+        result[todo["id"]] = todo;
     }
-    for (let done of cache["done"]) {
-        let item = newItem(done, undefined, true);
-        list[item.id] = item;
+    for (let done of list["done"]) {
+        result[done["id"]] = done;
     }
-    return list;
+    return result;
 }
 
-const initList = loadCache();
-
-const listReducer = (list=initList, action) => {
+const listReducer = (list={}, action) => {
     if (action.type === ADD_ITEM) {
         let item = newItem(action.text, undefined, false, action.detail);
         return {...list, [item.id]: item};
@@ -56,6 +52,8 @@ const listReducer = (list=initList, action) => {
         return {...list, [action.id]: newItem(list[action.id].text, action.id, list[action.id].done, action.detail)};
     } else if (action.type === CLEAR_ALL) {
         return {};
+    } else if (action.type === LOAD_LIST) {
+        return loadList(action.list);
     }
     return list;
 }

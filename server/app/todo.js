@@ -17,8 +17,8 @@ Todo.prototype.loadTodoList = (username) => {
     return result;
 }
 
-Todo.prototype.addItem = (username, text) => {
-    let data = {"user": username, "text": text, "done": false};
+Todo.prototype.addItem = (username, text, detail) => {
+    let data = {"user": username, "text": text, "detail": detail, "done": false};
     db.add(collection, data);
 }
 

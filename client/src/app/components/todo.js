@@ -2,13 +2,30 @@
 import React from 'react';
 import './todo.css';
 import { connect } from 'react-redux';
-import { addItem, finishItem, cancelItem, addDetail, showDetail, closeDetail, clearAll } from '../actions/todoActions'
+import { addItem, finishItem, cancelItem, addDetail, showDetail, closeDetail, clearAll, loadList } from '../actions/todoActions'
+import { todoService } from '../services/todo';
 
 class Todo extends React.Component {
     constructor() {
         super();
         this.title = React.createRef();
         this.detail = React.createRef();
+    }
+    componentDidMount() {
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        };
+        let username = localStorage.getItem('user');
+        let url = 'http://127.0.0.1:8000/user/'+username+'/list';
+        let that = this;
+        fetch(url, requestOptions).then(response => response.json())
+            .then((data) => {
+                that.props.loadList(data);
+            });
     }
     todoText(id, text, done, detail) {
         const key = id + "text";
@@ -58,7 +75,11 @@ class Todo extends React.Component {
             alert("Please enter something :)")
             return;
         }
-        this.props.addItem(this.title.current.value, this.detail.current.value);
+        let that = this;
+        todoService.addItem(this.title.current.value, this.detail.current.value).then(function(res) {
+            if (res["todo"] !== null || res["todo"] !== undefined)
+                that.props.loadList(res);
+        });
         this.title.current.value = "";
         this.detail.current.value = "";
     }
@@ -88,5 +109,5 @@ class Todo extends React.Component {
 }
 
 const mapStateToProps = (state) => {return {list: state.list, ui: state.ui}};
-const mapDispatchToProps = { addItem, finishItem, cancelItem, addDetail, showDetail, closeDetail, clearAll };
+const mapDispatchToProps = { addItem, finishItem, cancelItem, addDetail, showDetail, closeDetail, clearAll, loadList };
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);

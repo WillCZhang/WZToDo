@@ -11,4 +11,9 @@ User.prototype.exist = (username) => {
     return db.find(collection, condition).length === 1;
 }
 
+User.prototype.login = (username, password) => {
+    let condition = {"id": username, "password": password};
+    return db.find(collection, condition).length === 1;
+}
+
 module.exports = User;
