@@ -27,7 +27,8 @@ Todo.prototype.changeStatus = (username, uuid) => {
     let items = db.find(collection, condition);
     if (items.length !== 1)
         throw 'Unknown todo item';
-    db.update(collection, condition, !items[0].done);
+        console.log("Found item to flip status: " + JSON.stringify(items[0]));
+    db.update(collection, condition, {done: !items[0].done});
 }
 
 Todo.prototype.deleteItem = (username, uuid) => {

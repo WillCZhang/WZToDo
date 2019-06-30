@@ -4,6 +4,8 @@ import './todo.css';
 import { connect } from 'react-redux';
 import { addItem, finishItem, cancelItem, addDetail, showDetail, closeDetail, clearAll, loadList } from '../actions/todoActions'
 import { todoService } from '../services/todo';
+import { userService } from '../services/user';
+import { history } from './history';
 
 class Todo extends React.Component {
     constructor() {
@@ -12,24 +14,11 @@ class Todo extends React.Component {
         this.detail = React.createRef();
     }
     componentDidMount() {
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        };
-        let username = localStorage.getItem('user');
-        let url = 'http://127.0.0.1:8000/user/'+username+'/list';
-        let that = this;
-        fetch(url, requestOptions).then(response => response.json())
-            .then((data) => {
-                that.props.loadList(data);
-            });
+        todoService.getItems(this.props.loadList);
     }
     todoText(id, text, done, detail) {
         const key = id + "text";
-        let detailObj = {title: text, detail: detail};
+        let detailObj = { title: text, detail: detail };
         if (done) {
             return <li key={key} onClick={() => this.props.showDetail(detailObj)} className="text cross-out">{text}</li>
         } else {
@@ -46,18 +35,30 @@ class Todo extends React.Component {
     }
     generateTodoListView() {
         let list = Object.values(this.props.list).map((todo) =>
-            <ul className="horizontal" key={todo.id+"list"}>
+            <ul className="horizontal" key={todo.id + "list"}>
                 {this.todoText(todo.id, todo.text, todo.done, todo.detail)}
                 {this.doneButton(todo.id, todo.done)}
                 <li key={todo.id} className="cancel" onClick={() => this.props.cancelItem(todo.id)}>Cancel</li>
             </ul>
         );
+        let currList = (
+            <div className="center">
+                <h3>Your current todo list</h3>
+            </div>
+        )
+        let clearAll = (
+            <div className="container center">
+                <button className="button-clear" onClick={() => this.props.clearAll()}>Clear All</button>
+            </div>
+        )
         return (
             <div>
+                {list.length > 0 ? currList : null}
+                <br></br>
                 <ul>{list}</ul>
-                <div className="container center">
-                    <button className="button-clear" onClick={() => this.props.clearAll()}>Clear All</button>
-                </div>
+                <br></br>
+                <br></br>
+                {list.length > 0 ? clearAll : null}
             </div>
         )
     }
@@ -75,11 +76,11 @@ class Todo extends React.Component {
             alert("Please enter something :)")
             return;
         }
-        let that = this;
-        todoService.addItem(this.title.current.value, this.detail.current.value).then(function(res) {
-            if (res["todo"] !== null || res["todo"] !== undefined)
-                that.props.loadList(res);
-        });
+        let showItem = (data) => {
+            if (data["todo"] !== null || data["todo"] !== undefined)
+                this.props.loadList(data);
+        }
+        todoService.addItem(this.title.current.value, this.detail.current.value, showItem);
         this.title.current.value = "";
         this.detail.current.value = "";
     }
@@ -94,20 +95,34 @@ class Todo extends React.Component {
             </form>
         )
     }
+    logout = () => {
+        userService.logout();
+        history.push('/login');
+    }
     render() {
         const list = this.generateTodoListView();
         const detailedView = this.generateDetailView();
         return (
             <div className="container">
-                <div className="container center">
+                <div className="center">
+                    <h2>Hi {userService.getLoginUsername()}! What do you want to finish today?</h2>
+                </div>
+                <div className="center">
                     {this.generateAddTodoItemView()}
                 </div>
-                {this.props.ui.showDetail? detailedView : list}
+                <br></br>
+                <br></br>
+                {this.props.ui.showDetail ? detailedView : list}
+                <br></br>
+                <br></br>
+                <div className="center">
+                    <input type="button" value="Logout" className="button button-add" onClick={this.logout}></input>
+                </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) => {return {list: state.list, ui: state.ui}};
+const mapStateToProps = (state) => { return { list: state.list, ui: state.ui } };
 const mapDispatchToProps = { addItem, finishItem, cancelItem, addDetail, showDetail, closeDetail, clearAll, loadList };
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);

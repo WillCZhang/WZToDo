@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { ADD_ITEM, CHANGE_STATUS, CANCEL_ITEM, ADD_DETAIL, SHOW_DETAIL, CLOSE_DETAIL, CLEAR_ALL, LOAD_LIST } from '../const';
 import { alertActions } from '../actions/alertAction';
+import { todoService } from '../services/todo';
 
 // CHANGED!!!
 
@@ -43,14 +44,18 @@ const listReducer = (list={}, action) => {
         let item = newItem(action.text, undefined, false, action.detail);
         return {...list, [item.id]: item};
     } else if (action.type === CHANGE_STATUS) {
+        todoService.changeStatus(action.id);
         return {...list, [action.id]: newItem(list[action.id].text, action.id, !list[action.id].done, list[action.id].detail)};
     } else if (action.type === CANCEL_ITEM) {
         let tempList = {...list};
+        todoService.deleteItem(action.id);
         delete tempList[action.id];
         return tempList;
     } else if (action.type === ADD_DETAIL) {
         return {...list, [action.id]: newItem(list[action.id].text, action.id, list[action.id].done, action.detail)};
     } else if (action.type === CLEAR_ALL) {
+        for (let key of Object.keys(list))
+            todoService.deleteItem(key);
         return {};
     } else if (action.type === LOAD_LIST) {
         return loadList(action.list);

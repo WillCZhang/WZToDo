@@ -37,7 +37,7 @@ li.text {
     margin-left: 20%;
     margin-right: 2%;
     padding: 5px 5px;
-    width: 50%;
+    width: 55%;
     outline: none;
     outline-style: none;
     border-top: none;
@@ -51,7 +51,7 @@ li.text:hover {
     margin-left: 20%;
     margin-right: 2%;
     padding: 5px 5px;
-    width: 50%;
+    width: 55%;
     outline: none;
     outline-style: none;
     border-top: none;
@@ -64,7 +64,7 @@ li.cross-out {
     margin-left: 20%;
     margin-right: 2%;
     padding: 5px 5px;
-    width: 50%;
+    width: 55%;
     outline: none;
     outline-style: none;
     border-top: none;
@@ -126,6 +126,7 @@ li.cross-out {
     border-bottom: solid #eeeeee 2px;
     padding: 3px 10px;
     font-size: 20px;
+    width: 50%;
 }
 .text-small-font {
     font-size: 16px;

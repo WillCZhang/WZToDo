@@ -27,8 +27,8 @@ class LoginPage extends React.Component {
         const { username, password } = this.state;
 
         if (username && password) {
-            userService.login(username, password);
-            history.push('/');
+            let nav = () => {history.push('/')}
+            userService.login(username, password, nav);
         }
     }
 

@@ -86,7 +86,7 @@ app.post('/user/:user/list', checkAuth, (req, res, next) => {
     if (!req.params || !req.params.user || !userManager.exist(req.params.user) || !req.body.text)
       throw 'Invalid request';
     console.log("Received user " + req.params.user + " adding todo list " + req.body.text + " request");
-    todo.addItem(req.params.user, req.body.text, req.body.detail? req.body.detail : "");
+    todo.addItem(req.params.user, req.body.text, req.body.detail ? req.body.detail : "");
     res.status(200);
     let response = todo.loadTodoList(req.params.user);
     console.log(response);
@@ -100,7 +100,7 @@ app.put('/user/:user/:uuid', checkAuth, (req, res, next) => {
   try {
     if (!req.params || !req.params.user || !req.params.uuid || !userManager.exist(req.params.user))
       throw 'Invalid request';
-    console.log("Received user " + req.params.user + " deleting todo list item request");
+    console.log("Received user " + req.params.user + " updating todo list item request");
     todo.changeStatus(req.params.user, req.params.uuid);
     res.status(200);
     res.json(todo.loadTodoList(req.params.user));

@@ -1,36 +1,40 @@
+import { request, handleResponse } from "./request";
+import { userService } from './user';
+
 export const todoService = {
-    addItem
+    getItems,
+    addItem,
+    deleteItem,
+    changeStatus
 };
 
-function addItem(text, detail) {
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+function getItems(callback) {
+    let username = userService.getLoginUsername();
+    let url = 'http://127.0.0.1:8000/user/' + username + '/list';
+    fetch(url, request.GET).then(response => response.json()).then(callback);
+}
+
+function addItem(text, detail, callback) {
+    const req = {
+        ...request.POST,
         body: JSON.stringify({
             text: text,
             detail: detail
         })
     };
-    let username = localStorage.getItem('user');
-    let url = 'http://127.0.0.1:8000/user/'+username+'/list';
-    return fetch(url, requestOptions).then(handleResponse).catch((e) => {
-        console.log(e);
-        return Promise.reject(e);
-    });
+    let username = userService.getLoginUsername();
+    let url = 'http://127.0.0.1:8000/user/' + username + '/list';
+    return fetch(url, req).then(handleResponse).then(callback);
 }
 
-function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text);
-        if (!response.ok) {
-            const error = (data && data.msg) || response.statusText;
-            return Promise.reject(error);
-        }
-        return data;
-    }).catch((e) => {
-        return Promise.reject(e);
-    });
+function deleteItem(uuid) {
+    let username = userService.getLoginUsername()
+    let url = 'http://127.0.0.1:8000/user/' + username + '/' + uuid;
+    fetch(url, request.DELETE).then(handleResponse);
+}
+
+function changeStatus(uuid) {
+    let username = userService.getLoginUsername();
+    let url = 'http://127.0.0.1:8000/user/' + username + '/' + uuid;
+    fetch(url, request.PUT).then(handleResponse);
 }
