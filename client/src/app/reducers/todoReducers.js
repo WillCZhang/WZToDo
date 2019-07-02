@@ -1,23 +1,6 @@
 import { combineReducers } from 'redux';
 import { ADD_ITEM, CHANGE_STATUS, CANCEL_ITEM, ADD_DETAIL, SHOW_DETAIL, CLOSE_DETAIL, CLEAR_ALL, LOAD_LIST } from '../const';
-import { alertActions } from '../actions/alertAction';
 import { todoService } from '../services/todo';
-
-// CHANGED!!!
-
-const cache = {
-    "todo": [
-        "do cpsc 436 assignment",
-        "plan projects",
-        "plan meeting schedule"
-    ],
-    "done": [
-        "find a group",
-        "buy some food"
-    ]
-}
-
-let nextId = 1;
 
 function newItem(text, id, done=false, detail="") {
     return {

@@ -6,14 +6,21 @@ function User() {
     db = new Database();
 }
 
-User.prototype.exist = (username) => {
+User.prototype.exist = async (username) => {
     let condition = {"id": username};
-    return db.find(collection, condition).length === 1;
+    let result = await db.find(collection, condition);
+    return result.length === 1;
 }
 
-User.prototype.login = (username, password) => {
+User.prototype.login = async (username, password) => {
     let condition = {"id": username, "password": password};
-    return db.find(collection, condition).length === 1;
+    let result = await db.find(collection, condition);
+    return result.length === 1;
+}
+
+User.prototype.register = async (username, password) => {
+    let data = {"id": username, "password": password};
+    await db.add(collection, data);
 }
 
 module.exports = User;

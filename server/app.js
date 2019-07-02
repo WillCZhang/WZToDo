@@ -31,8 +31,8 @@ function checkAuth(req, res, next) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// app.use(logger('combined'));
-app.use(logger('dev'));
+app.use(logger('combined'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -42,20 +42,38 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routers:
 app.post('/login', function (req, res, next) {
-  if (userManager.exist(req.body.user)) {
+  userManager.exist(req.body.user).then(() => {
     req.session.regenerate(function (err) {
-      if (err) {
-        res.json({ code: 400, msg: "Username doesn't exist" })
-      } if (!req.body.user || !req.body.password || !userManager.login(req.body.user, Buffer.from(req.body.password, 'base64').toString())) {
-        res.json({ code: 400, msg: "Wrong username or password" })
+      if (err || !req.body.user || !req.body.password) {
+        res.json({ code: 400, msg: "Username doesn't exist" });
       } else {
-        req.session.loginUser = req.body.user;
-        console.log(req.session.loginUser)
-        res.json({ code: 200, msg: "Success!" });
+        userManager.login(req.body.user, Buffer.from(req.body.password, 'base64').toString()).then(() => {
+          req.session.loginUser = req.body.user;
+          console.log("User " + req.session.loginUser + " just logined into system");
+          res.json({ code: 200, msg: "Success!" });
+        }).catch(() => {
+          res.json({ code: 400, msg: "Username doesn't exist" });
+        })
       }
     });
-  } else {
+  }).catch(() => {
     res.json({ code: 400, msg: "Wrong username" });
+  })
+});
+
+app.post('/register', function (req, res, next) {
+  if (!req.body.user || !req.body.password || Buffer.from(req.body.password, 'base64').toString() === "") {
+    res.json({ code: 400, msg: "Username or password can't be empty" });
+  } else {
+    userManager.exist(req.body.user).then(() => {
+      userManager.register(req.body.user, Buffer.from(req.body.password, 'base64').toString()).then(() => {
+        res.json({ code: 200, msg: "Success!" });
+      }).catch(() => {
+        res.json({ code: 400, msg: "Username has been taken" });
+      })
+    }).catch(() => {
+      res.json({ code: 400, msg: "Username has been taken" });
+    })
   }
 });
 
@@ -71,26 +89,36 @@ app.get('/logout', function (req, res, next) {
 
 app.get('/user/:user/list', checkAuth, (req, res, next) => {
   try {
-    if (!req.params || !req.params.user || !userManager.exist(req.params.user))
+    if (!req.params || !req.params.user)
       throw 'Invalid request';
-    console.log("Received user " + req.params.user + " loading todo list request");
-    res.status(200);
-    res.json(todo.loadTodoList(req.params.user));
+    todo.loadTodoList(req.params.user).then((data) => {
+      console.log("Received user " + req.params.user + " loading todo list request");
+      res.status(200);
+      res.json(data);
+    }).catch(err => {
+      console.log(err)
+      res.json({ code: 400, msg: err })
+    });
   } catch (err) {
-    res.json({ code: 400, msg: err })
+    res.json({ code: 400, msg: err });
   }
 });
 
 app.post('/user/:user/list', checkAuth, (req, res, next) => {
   try {
-    if (!req.params || !req.params.user || !userManager.exist(req.params.user) || !req.body.text)
+    if (!req.params || !req.params.user || !req.body.text)
       throw 'Invalid request';
-    console.log("Received user " + req.params.user + " adding todo list " + req.body.text + " request");
-    todo.addItem(req.params.user, req.body.text, req.body.detail ? req.body.detail : "");
-    res.status(200);
-    let response = todo.loadTodoList(req.params.user);
-    console.log(response);
-    res.json(response);
+    todo.addItem(req.params.user, req.body.text, req.body.detail ? req.body.detail : "").then(() => {
+      todo.loadTodoList(req.params.user).then((data) => {
+        console.log("Received user " + req.params.user + " adding todo list " + req.body.text + " request");
+        res.status(200);
+        console.log(data);
+        res.json(data);
+      });
+    }).catch(err => {
+      console.log(err)
+      res.json({ code: 400, msg: err })
+    });
   } catch (err) {
     res.json({ code: 400, msg: err })
   }
@@ -98,25 +126,37 @@ app.post('/user/:user/list', checkAuth, (req, res, next) => {
 
 app.put('/user/:user/:uuid', checkAuth, (req, res, next) => {
   try {
-    if (!req.params || !req.params.user || !req.params.uuid || !userManager.exist(req.params.user))
+    if (!req.params || !req.params.user || !req.params.uuid)
       throw 'Invalid request';
-    console.log("Received user " + req.params.user + " updating todo list item request");
-    todo.changeStatus(req.params.user, req.params.uuid);
-    res.status(200);
-    res.json(todo.loadTodoList(req.params.user));
+    todo.changeStatus(req.params.user, req.params.uuid).then(() => {
+      todo.loadTodoList(req.params.user).then((data) => {
+        console.log("Received user " + req.params.user + " updating todo list item request");
+        res.status(200);
+        res.json(data);
+      });
+    }).catch(err => {
+      console.log(err)
+      res.json({ code: 400, msg: err })
+    });
   } catch (err) {
-    res.json({ code: 400, msg: err })
+    res.json({ code: 400, msg: err });
   }
 });
 
 app.delete('/user/:user/:uuid', (req, res, next) => {
   try {
-    if (!req.params || !req.params.user || !req.params.uuid || !userManager.exist(req.params.user))
+    if (!req.params || !req.params.user || !req.params.uuid)
       throw 'Invalid request';
-    console.log("Received user " + req.params.user + " deleting todo list item request");
-    todo.deleteItem(req.params.user, req.params.uuid);
-    res.status(200);
-    res.json(todo.loadTodoList(req.params.user));
+    todo.deleteItem(req.params.user, req.params.uuid).then(() => {
+      todo.loadTodoList(req.params.user).then((data) => {
+        console.log("Received user " + req.params.user + " deleting todo list item request");
+        res.status(200);
+        res.json(data);
+      });
+    }).catch(err => {
+      console.log(err)
+      res.json({ code: 400, msg: err })
+    });
   } catch (err) {
     res.json({ code: 400, msg: err })
   }

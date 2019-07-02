@@ -1,9 +1,10 @@
-import Base64  from 'base-64';
+import Base64 from 'base-64';
 import { request, handleResponse } from './request';
 
 export const userService = {
     login,
     logout,
+    register,
     getLoginUsername
 };
 
@@ -35,7 +36,25 @@ function logout() {
     localStorage.removeItem('user');
 }
 
-function getLoginUsername() {
+function register(username, password, callback) {
+    const requestOptions = {
+        ...request.POST,
+        body: JSON.stringify({
+            user: username,
+            password: Base64.encode(password)
+        })
+    };
+    return fetch(`http://127.0.0.1:8000/register`, requestOptions)
+        .then(handleResponse).then(user => {
+            // login successful if there's a user in the response
+            if (user && user.code === 200) {
+                callback(user);
+            } else {
+                alert(user.msg);
+            }
+        });
+}
 
+function getLoginUsername() {
     return localStorage.getItem('user');
 }

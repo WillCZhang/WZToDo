@@ -1,14 +1,14 @@
 const Database = require('./database');
-const collection = "todoList";
+const collection = "todo";
 let db = null;
 
 function Todo() {
     db = new Database();
 }
 
-Todo.prototype.loadTodoList = (username) => {
+Todo.prototype.loadTodoList = async (username) => {
     let condition = {"user": username};
-    let todoList = db.find(collection, condition);
+    let todoList = await db.find(collection, condition);
     let result = {todo: [], done: []};
     for (let todo of todoList) {
         let toPush = todo["done"]? result["done"] : result["todo"];
@@ -17,23 +17,24 @@ Todo.prototype.loadTodoList = (username) => {
     return result;
 }
 
-Todo.prototype.addItem = (username, text, detail) => {
+Todo.prototype.addItem = async (username, text, detail) => {
     let data = {"user": username, "text": text, "detail": detail, "done": false};
-    db.add(collection, data);
+    await db.add(collection, data);
 }
 
-Todo.prototype.changeStatus = (username, uuid) => {
+Todo.prototype.changeStatus = async (username, uuid) => {
     let condition = {"user": username, "id": uuid};
-    let items = db.find(collection, condition);
-    if (items.length !== 1)
-        throw 'Unknown todo item';
-        console.log("Found item to flip status: " + JSON.stringify(items[0]));
-    db.update(collection, condition, {done: !items[0].done});
+    let items = await db.find(collection, condition);
+    if (items.length !== 1) {
+        console.log("Unknow item: " + JSON.stringify(items));
+    }
+    console.log("Found item to flip status: " + JSON.stringify(items[0]));
+    await db.update(collection, condition, {done: !items[0].done});
 }
 
-Todo.prototype.deleteItem = (username, uuid) => {
+Todo.prototype.deleteItem = async (username, uuid) => {
     let condition = {"user": username, "id": uuid};
-    db.delete(collection, condition);
+    await db.delete(collection, condition);
 }
 
 module.exports = Todo;
