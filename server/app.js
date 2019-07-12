@@ -24,15 +24,15 @@ app.use(session({
 }));
 
 function checkAuth(req, res, next) {
-  req.session.loginUser === req.params.user ? res.send('username issue') : next();
+  req.session.loginUser !== req.params.user ? res.send('username issue') : next();
 }
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('combined'));
-// app.use(logger('dev'));
+// app.use(logger('combined'));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -100,6 +100,7 @@ app.get('/user/:user/list', checkAuth, (req, res, next) => {
       res.json({ code: 400, msg: err })
     });
   } catch (err) {
+    console.log(err)
     res.json({ code: 400, msg: err });
   }
 });

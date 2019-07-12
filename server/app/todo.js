@@ -14,7 +14,7 @@ Todo.prototype.loadTodoList = async (username) => {
         let toPush = todo["done"]? result["done"] : result["todo"];
         toPush.push(todo);
     }
-    return result;
+    return Promise.resolve(result);
 }
 
 Todo.prototype.addItem = async (username, text, detail) => {

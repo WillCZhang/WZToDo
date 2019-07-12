@@ -4,35 +4,40 @@ const uuidv4 = require('uuid/v4');
 const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
 
-let db = 'project';
+let dbName = 'project';
 let credentialFile = path.join(__dirname, "credential.json");
 let json = JSON.parse(fs.readFileSync(credentialFile, 'utf8'));
 let connectionURL = json.connectionUrl;
 
-function database() { }
-
-function connect(collectionName, callback) {
-    return new Promise(function (fulfill, reject) {
-        MongoClient.connect(connectionURL, { useNewUrlParser: true }, function (err, client) {
+let db = null;
+function database() {
+    MongoClient.connect(connectionURL, { useNewUrlParser: true }, function (err, client) {
+        if (err !== null) {
+            console.log(err);
+        }
+        client.connect(err => {
             if (err !== null) {
-                console.log(err);
-                reject({});
+                console.error(err);
                 return;
             }
-            client.connect(err => {
-                if (err !== null) {
-                    console.log(err);
-                    reject({});
-                    return;
-                }
-                const collection = client.db(db).collection(collectionName);
-                callback(collection).then((data) => {
-                    fulfill({data: data, client: client});
-                }).catch((err) => {
-                    console.log(err);
-                    reject({client: client});
-                });
-            })
+            db = client.db(dbName);
+        });
+    });
+}
+
+function connect(collectionName, callback) {
+    while (true) {
+        if (db !== null && db !== undefined) {
+            break;
+        }
+    }
+    return new Promise(function (fulfill, reject) {
+        const collection = db.collection(collectionName);
+        callback(collection).then((data) => {
+            fulfill({ data: data });
+        }).catch((err) => {
+            console.log(err);
+            reject({});
         });
     });
 }
@@ -47,12 +52,12 @@ function connect(collectionName, callback) {
 database.prototype.find = async (collection, condition) => {
     let callback = (collection) => {
         return new Promise(function (fulfill, reject) {
+            console.log(condition)
             collection.find(condition).toArray(function (err, docs) {
                 if (err !== null) {
                     console.log(err);
                     reject(err);
                 }
-                console.log(docs);
                 if (!(docs instanceof Array)) {
                     docs = [docs]
                 }
@@ -64,8 +69,8 @@ database.prototype.find = async (collection, condition) => {
 }
 
 database.prototype.add = async (collection, data) => {
-    if (data.id === null || data.id === undefined) {
-        data.id = uuidv4();
+    if (data._id === null || data._id === undefined) {
+        data._id = uuidv4();
     }
     let callback = (collection) => {
         return new Promise(function (fulfill, reject) {
@@ -104,13 +109,12 @@ database.prototype.update = async (collection, condition, toUpdate) => {
 // Delete should almost always return 200 except for connection lost or unexpected networking issues.
 database.prototype.delete = async (collection, condition) => {
     let callback = (collection) => {
-        return new Promise(function(fulfill, reject) {
+        return new Promise(function (fulfill, reject) {
             collection.deleteOne(condition, function (err, obj) {
                 if (err) {
                     console.error(err);
                     reject(err);
                 }
-                console.log("1 document deleted");
                 fulfill({});
             })
         });
@@ -120,9 +124,6 @@ database.prototype.delete = async (collection, condition) => {
 
 async function dbHandler(collection, callback) {
     let result = await connect(collection, callback);
-    if (result.client !== null) {
-        result.client.close();
-    }
     return result.data;
 }
 

@@ -10,7 +10,7 @@ export const todoService = {
 
 function getItems(callback) {
     let username = userService.getLoginUsername();
-    let url = 'http://127.0.0.1:8000/user/' + username + '/list';
+    let url = '/user/' + username + '/list';
     fetch(url, request.GET).then(response => response.json()).then(callback);
 }
 
@@ -23,18 +23,18 @@ function addItem(text, detail, callback) {
         })
     };
     let username = userService.getLoginUsername();
-    let url = 'http://127.0.0.1:8000/user/' + username + '/list';
+    let url = '/user/' + username + '/list';
     return fetch(url, req).then(handleResponse).then(callback);
 }
 
 function deleteItem(uuid) {
     let username = userService.getLoginUsername()
-    let url = 'http://127.0.0.1:8000/user/' + username + '/' + uuid;
+    let url = '/user/' + username + '/' + uuid;
     fetch(url, request.DELETE).then(handleResponse);
 }
 
 function changeStatus(uuid) {
     let username = userService.getLoginUsername();
-    let url = 'http://127.0.0.1:8000/user/' + username + '/' + uuid;
+    let url = '/user/' + username + '/' + uuid;
     fetch(url, request.PUT).then(handleResponse);
 }

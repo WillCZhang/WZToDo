@@ -16,7 +16,7 @@ function login(username, password, callback) {
             password: Base64.encode(password)
         })
     };
-    return fetch(`http://127.0.0.1:8000/login`, requestOptions)
+    return fetch(`/login`, requestOptions)
         .then(handleResponse).then(user => {
             // login successful if there's a user in the response
             if (user && user.code === 200) {
@@ -44,7 +44,7 @@ function register(username, password, callback) {
             password: Base64.encode(password)
         })
     };
-    return fetch(`http://127.0.0.1:8000/register`, requestOptions)
+    return fetch(`/register`, requestOptions)
         .then(handleResponse).then(user => {
             // login successful if there's a user in the response
             if (user && user.code === 200) {
