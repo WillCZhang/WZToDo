@@ -67,14 +67,15 @@ app.post('/register', function (req, res, next) {
     res.json({ code: 400, msg: "Username or password can't be empty" });
   } else {
     userManager.exist(req.body.user).then(() => {
+      res.json({ code: 400, msg: "Username has been taken" });
+    }).catch(() => {
       userManager.register(req.body.user, Buffer.from(req.body.password, 'base64').toString()).then(() => {
         res.json({ code: 200, msg: "Success!" });
-      }).catch(() => {
+      }).catch((e) => {
+        console.log(e)
         res.json({ code: 400, msg: "Username has been taken" });
       })
-    }).catch(() => {
-      res.json({ code: 400, msg: "Username has been taken" });
-    })
+    });
   }
 });
 
