@@ -24,7 +24,7 @@ Todo.prototype.addItem = async (username, text, detail) => {
 }
 
 Todo.prototype.changeStatus = async (username, uuid) => {
-    let condition = {"user": username, "id": uuid};
+    let condition = {"user": username, "_id": uuid};
     let items = await db.find(collection, condition);
     if (items.length !== 1) {
         console.log("Unknow item: " + JSON.stringify(items));
@@ -34,7 +34,7 @@ Todo.prototype.changeStatus = async (username, uuid) => {
 }
 
 Todo.prototype.deleteItem = async (username, uuid) => {
-    let condition = {"user": username, "id": uuid};
+    let condition = {"user": username, "_id": uuid};
     await db.delete(collection, condition);
 }
 
