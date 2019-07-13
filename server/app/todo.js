@@ -12,6 +12,7 @@ Todo.prototype.loadTodoList = async (username) => {
     let result = {todo: [], done: []};
     for (let todo of todoList) {
         let toPush = todo["done"]? result["done"] : result["todo"];
+        todo = {...todo, id: todo._id};
         toPush.push(todo);
     }
     return Promise.resolve(result);

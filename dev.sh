@@ -5,4 +5,4 @@
 npm install && cd ./client && npm install && cd ..
 
 # Starting both processes in subshells
-( npm start ) & ( cd ./client && npm start )
+( nodemon start ) & ( cd ./client && npm start )

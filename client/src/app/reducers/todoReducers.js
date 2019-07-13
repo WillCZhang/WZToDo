@@ -14,10 +14,10 @@ function newItem(text, id, done=false, detail="") {
 function loadList(list) {
     let result = {};
     for (let todo of list["todo"]) {
-        result[todo["_id"]] = todo;
+        result[todo["id"]] = todo;
     }
     for (let done of list["done"]) {
-        result[done["_id"]] = done;
+        result[done["id"]] = done;
     }
     return result;
 }
