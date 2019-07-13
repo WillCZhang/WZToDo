@@ -19,12 +19,12 @@ export const request = generateDefaultRequest();
 export const handleResponse = (response) => {
     return response.text().then(text => {
         const data = text && JSON.parse(text);
-            if (!response.ok) {
-                const error = (data && data.msg) || response.statusText;
-                return error;
-            }
-            return data;
+        if (!response.ok) {
+            const error = (data && data.msg) || response.statusText;
+            return error;
+        }
+        return data;
     }).catch((e) => {
-        return {...e, code: 400};
+        return { ...e, code: 400 };
     });
 }
